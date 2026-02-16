@@ -1,0 +1,10 @@
+[package]
+name = "hammal-rust"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+actix-web = "4.12.1"
+awc = { version = "3.8.1", features = ["rustls" ] }
+futures-util = "0.3.32"
+tokio = "1.49.0"
