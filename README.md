@@ -1,4 +1,4 @@
-# hammal
+# rammal
 
 a docker proxy server based on rust
 
