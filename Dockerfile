@@ -14,4 +14,6 @@ WORKDIR /app
 
 COPY --from=builder /app/target/release/rammal /app/rammal
 
+EXPOSE 8000
+
 ENTRYPOINT ["/app/rammal"]
