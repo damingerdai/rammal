@@ -16,14 +16,28 @@ fn main() -> Result<(), Box<dyn Error>> {
     let rustc = Rustc::all_rustc();
     let si = Sysinfo::all_sysinfo();
 
-    Emitter::default()
-        .fail_on_error()
-        .add_instructions(&build)?
-        .add_instructions(&cargo)?
-        .add_instructions(&git2)?
-        .add_instructions(&rustc)?
-        .add_instructions(&si)?
-        .emit()?;
+    let mut emitter = Emitter::default();
+    emitter.fail_on_error();
+    let _ = emitter.add_instructions(&build);
+    let _ = emitter.add_instructions(&cargo);
+    let _ = emitter.add_instructions(&git2);
+    let _ = emitter.add_instructions(&rustc);
+    let _ = emitter.add_instructions(&si);
+    let _ = emitter.emit();
+
+    // Values injected via docker build-args / env take precedence over
+    // whatever vergen produced (or failed to produce) when .git is absent.
+    for key in [
+        "VERGEN_GIT_DESCRIBE",
+        "VERGEN_GIT_SHA",
+        "VERGEN_GIT_COMMIT_DATE",
+    ] {
+        if let Ok(val) = std::env::var(key) {
+            if !val.is_empty() {
+                println!("cargo:rustc-env={key}={val}");
+            }
+        }
+    }
 
     Ok(())
 }
