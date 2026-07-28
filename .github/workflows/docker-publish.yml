@@ -3,7 +3,13 @@ name: Build and Push Docker Image
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Tag to build and push (e.g. v0.0.1-alpha.0)"
+        required: true
+        type: string
 
 env:
   DOCKERHUB_IMAGE: damingerdai/rammal
@@ -19,6 +25,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version || github.ref }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -48,6 +56,7 @@ jobs:
             ${{ env.GHCR_IMAGE }}
           tags: |
             type=ref,event=tag
+            type=raw,value=${{ inputs.version }},enable=${{ github.event_name == 'workflow_dispatch' }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
