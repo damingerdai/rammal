@@ -22,7 +22,7 @@ jobs:
 
       - name: Validate version input
         run: |
-          if ! [[ "${{ inputs.version }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(?:-(?:alpha|beta)(?:\.[0-9]+)*)?$ ]]; then
+          if ! [[ "${{ inputs.version }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta)(\.[0-9]+)*)?$ ]]; then
             echo "::error::Version must match 'vX.Y.Z' or 'vX.Y.Z-alpha.N'/'vX.Y.Z-beta.N' (e.g. v0.2.0, v0.0.1-alpha.0)"
             exit 1
           fi
