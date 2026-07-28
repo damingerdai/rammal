@@ -2,9 +2,14 @@
 name = "rammal"
 version = "0.1.0"
 edition = "2024"
+build = "build.rs"
 
 [dependencies]
 actix-web = "4.12.1"
 awc = { version = "3.8.1", features = ["rustls" ] }
 futures-util = "0.3.32"
 tokio = "1.49.0"
+serde = { version = "1", features = ["derive"] }
+
+[build-dependencies]
+vergen-git2 = { version = "10", features = ["build", "cargo", "rustc", "si"] }
