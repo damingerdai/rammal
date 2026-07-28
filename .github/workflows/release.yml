@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   release:
@@ -57,4 +58,12 @@ jobs:
           tag_name: ${{ inputs.version }}
           body_path: ${{ steps.cliff.outputs.path }}
           draft: false
-          prerelease: false
+          prerelease: ${{ contains(inputs.version, '-alpha') || contains(inputs.version, '-beta') }}
+
+      - name: Trigger docker image build
+        run: |
+          gh workflow run docker-publish.yml \
+            -r "${{ github.ref_name }}" \
+            -f version="${{ inputs.version }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
