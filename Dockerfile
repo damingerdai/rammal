@@ -2,8 +2,9 @@ FROM rust:1.97.1-slim-trixie AS builder
 
 WORKDIR /app
 
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml Cargo.lock build.rs ./
 COPY src ./src
+COPY .git ./.git
 
 RUN cargo build --release
 
