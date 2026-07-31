@@ -1,0 +1,7 @@
+services:
+  rammal:
+    image: damingerdai/rammal:v0.0.1-alpha.0
+    container_name: rammal
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
