@@ -12,6 +12,7 @@ on:
         type: string
 
 env:
+  VERSION: ${{ inputs.version || github.ref_name }}
   DOCKERHUB_IMAGE: damingerdai/rammal
   GHCR_IMAGE: ghcr.io/${{ github.repository_owner }}/rammal
 
@@ -23,16 +24,23 @@ jobs:
       packages: write
 
     steps:
+      - name: Validate version
+        run: |
+          if ! [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta)(\.[0-9]+)*)?$ ]]; then
+            echo "::error::Version must match vX.Y.Z or an alpha/beta version"
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.version || github.ref }}
+          ref: refs/tags/${{ env.VERSION }}
 
       - name: Prepare git metadata
         id: gitmeta
         run: |
           # describe: the tag being built (either pushed or manually supplied)
-          describe="${{ inputs.version || github.ref_name }}"
+          describe="$VERSION"
           sha=$(git rev-parse HEAD)
           date=$(git show -s --format=%cI HEAD)
           echo "describe=$describe" >> "$GITHUB_OUTPUT"
