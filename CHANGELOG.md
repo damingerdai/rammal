@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.1-beta.1] - 2026-11-14
+
+### Features
+
+- Add default settings and make config file optional
+
 ## [0.0.1-beta.0] - 2026-11-14
 
 ### Bug Fixes
