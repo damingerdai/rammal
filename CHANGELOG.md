@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.1-beta.0] - 2026-11-14
+
+### Bug Fixes
+
+- Include default configuration in container images (#1)
+- Allow alpha/beta prerelease tags in release workflow
+- Inject git metadata via docker build-args and make vergen non-fatal
+- Copy .git into docker image and add vergen fallbacks
+
+### CI/CD
+
+- Generate release notes for the pending version (#5)
+- Publish Alpine images with separate tags and caches (#4)
+- Validate workflow versions without shell interpolation (#3)
+- Stop release when committing changes fails (#2)
+- Bump actions/checkout@v7
+- Auto-trigger docker build and mark prereleases in release workflow
+- Support v-tag push and manual dispatch in docker workflow
+
+### Documentation
+
+- Add contributor guidelines
+- Improve project documentation
+
+### Features
+
+- Configure server address and proxy timeouts
+- Bump rust 1.99
+
+### Miscellaneous
+
+- Add build shell script
+
+### Build
+
+- Add Alpine image and harden container runtime
+
+### Deploy
+
+- Add Docker Compose configuration
+
 ## [0.0.1-alpha.0] - 2026-07-28
 
 ### Bug Fixes
