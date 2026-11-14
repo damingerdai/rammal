@@ -1,4 +1,4 @@
-FROM rust:1.99.1-slim-trixie AS builder
+FROM rust:1.100.0-slim-trixie AS builder
 
 WORKDIR /app
 
@@ -15,15 +15,20 @@ ENV VERGEN_GIT_DESCRIBE=$VERGEN_GIT_DESCRIBE \
 COPY Cargo.toml Cargo.lock build.rs ./
 COPY src ./src
 
-RUN cargo build --release
+RUN cargo build --release --locked
 
 
 FROM debian:trixie-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY --from=builder /app/target/release/rammal /app/rammal
 
+USER 10001:10001
 EXPOSE 8000
 
 ENTRYPOINT ["/app/rammal"]
