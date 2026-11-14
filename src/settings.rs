@@ -24,7 +24,13 @@ pub struct Settings {
 impl Settings {
     pub fn load() -> Result<Self, ConfigError> {
         Config::builder()
-            .add_source(File::with_name("config/default"))
+            .set_default("server.host", "0.0.0.0")?
+            .set_default("server.port", 8000)?
+            .set_default("proxy.upstream", "https://registry-1.docker.io")?
+            .set_default("proxy.cache_dir", "./docker_cache")?
+            .set_default("proxy.connect_timeout", 10)?
+            .set_default("proxy.request_timeout", 30)?
+            .add_source(File::with_name("config/default").required(false))
             .add_source(
                 Environment::with_prefix("RAMMAL")
                     .prefix_separator("_")
