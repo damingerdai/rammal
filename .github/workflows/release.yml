@@ -39,12 +39,14 @@ jobs:
 
       - name: Generate changelog
         id: cliff
+        env:
+          VERSION: ${{ inputs.version }}
         run: |
           # Update CHANGELOG.md with all tags up to the new one
           git cliff --tag "$VERSION" --output CHANGELOG.md
 
           # Build release notes for this tag only (stripped header/footer)
-          git cliff --latest --strip header > RELEASE_NOTES.md
+          git cliff --unreleased --tag "$VERSION" --strip header > RELEASE_NOTES.md
           echo "path=RELEASE_NOTES.md" >> "$GITHUB_OUTPUT"
 
       - name: Bump version in Cargo.toml
