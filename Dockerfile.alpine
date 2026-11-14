@@ -28,6 +28,8 @@ WORKDIR /app
 
 COPY --from=builder --chown=app:app /app/target/release/rammal /app/rammal
 
+COPY config/default.toml /app/config/default.toml
+
 USER app
 EXPOSE 8000
 
