@@ -8,9 +8,11 @@ build = "build.rs"
 actix-web = "4.12.1"
 awc = { version = "3.8.1", features = ["rustls" ] }
 futures-util = "0.3.32"
-tokio = "1.49.0"
+tokio = { version = "1.49.0", features = ["fs", "io-util", "sync"] }
 serde = { version = "1", features = ["derive"] }
 config = "0.15.27"
+tokio-util = { version = "0.7.20", features = ["codec"] }
+actix-rt = "2.15.0"
 
 [build-dependencies]
 vergen-git2 = { version = "10", features = ["build", "cargo", "rustc", "si"] }
